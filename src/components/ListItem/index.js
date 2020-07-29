@@ -1,9 +1,52 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import Button from 'antd/es/button';
+import Tooltip from 'antd/es/tooltip';
 
 import { ITEM_TYPE } from '../List';
+import { PaneContext } from 'components/PaneContent';
+import { elementTemplate } from '../../helper/functions';
+import { ITEM_TITLE } from 'components/App';
 
-const ListItem = ({ id, name, moveItem, index }) => {
+const ListItem = ({ id, name: originalName, moveItem, index }) => {
+    const { list, setList } = useContext(PaneContext);
+    const [itemName, setItemName] = useState(originalName);
+    const [inEdit, setInEdit] = useState(false);
+
+    const editListItem = (e) => {
+        const value = e.target.value;
+        setItemName(value)
+    };
+
+    const deleteListItem = () => {
+        console.log('del')
+        const newList = list.filter((nItem, nIndex)=>nIndex !== index);
+        setList(newList);
+    };
+
+    const onDoubleClick = (e) => {
+        console.log('dabul')
+       if(!inEdit) {
+           console.log('dobl1', ref)
+
+           e.target.select()
+           ref.current.focus();
+            setInEdit(true);
+        }
+    };
+
+    const onBlur = (e) => {
+        if (inEdit) {
+            const value = e.target.value;
+            const newList = [...list];
+
+            newList[index] = {...newList[index], name: value};
+            console.log('blur1', newList[index])
+            setList(newList)
+            setInEdit(false)
+        }
+    };
+
     const ref = useRef(null)
     const [, drop] = useDrop({
         accept: ITEM_TYPE,
@@ -34,20 +77,45 @@ const ListItem = ({ id, name, moveItem, index }) => {
             item.index = hoverIndex
             // if (dragIndex > hoverIndex && hoverClientY < )
         }
-    })
+    });
     const [{ isDragging }, drag] = useDrag({
         item: { type: ITEM_TYPE, id, index },
         collect: monitor => ({
             isDragging: monitor.isDragging()
         })
     });
-    const opacity = isDragging ? 0 : 1
-    drag(drop(ref))
-    return (
-        <div ref={ref} style={{ border: '2px dashed black', margin: '5px', background: 'white', width: '100px', padding:'3px', cursor: 'pointer', opacity }}>
-            {name}
+    const opacity = isDragging ? 0 : 1;
+    drag(drop(ref));
+
+    const styles = { border: '2px dashed black', margin: '5px', background: 'white', width: '100px', padding:'3px', cursor: 'pointer', opacity };
+
+    return  (
+        <div style={{display:'flex', alignItems: 'center'}}>
+            <div onDoubleClick={onDoubleClick}>
+                <input ref={ref} style={styles} autoFocus={inEdit} disabled={!inEdit} onBlur={onBlur} onChange={editListItem} type='text' value={itemName}/>
+            </div>
+            <Tooltip title='Delete item'>
+                <Button style={{opacity}} type='danger' shape='circle' onClick={deleteListItem} > X </Button>
+             </Tooltip>
         </div>
     )
+
+    // return (
+    //     inEdit
+    //         ?
+    //             (
+    //                 <input {...commonProps} autoFocus onBlur={onBlur} onChange={editListItem} type='text' value={itemName}/>
+    //             )
+    //         :
+    //             (
+    //                 <div style={{display:'flex', alignItems: 'center'}}>
+    //                     <div {...commonProps} onDoubleClick={onDoubleClick}>{itemName}</div>
+    //                     <Tooltip title='Delete item'>
+    //                         <Button type='danger' shape='circle' onClick={deleteListItem} > X </Button>
+    //                     </Tooltip>
+    //                 </div>
+    //             )
+    //     )
 
 };
 

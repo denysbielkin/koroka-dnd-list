@@ -13,13 +13,14 @@ const List = () => {
         setList(prevState => {
             const newList = prevState.filter((nItem, nIndex) => nIndex !== dragIndex);
             newList.splice(hoverIndex, 0, item);
+            console.log('[MOVE]:',item, hoverIndex, dragIndex)
             return [...newList]
         })
     };
 
 
     return (
-        <div>
+        <div style={{minHeight: '70vh', width: '200px'}}>
             {list.map((item, index) => <ListItem key={item.id} id={item.id} name={item.name} index={index} moveItem={moveItem} /> )}
         </div>
     )
