@@ -5,6 +5,7 @@ import Tooltip from 'antd/es/tooltip';
 import  { ITEM_TITLE } from '../App';
 import { elementTemplate } from '../../helper/functions.js';
 import List from '../List';
+import { PaneContentWrapper } from './styled';
 
 export const PaneContext = createContext();
 
@@ -20,12 +21,12 @@ const PaneContent = ({ items }) => {
 
     return (
         <PaneContext.Provider value={{list, setList}}>
-          <>
-              <Tooltip title='Add new item'>
-                  <Button type='primary' shape='circle' onClick={createNewItem} > + </Button>
+          <PaneContentWrapper>
+              <Tooltip title='Add new'>
+                  <Button type='primary' shape='circle' onClick={createNewItem} > Add </Button>
               </Tooltip>
               <List />
-          </>
+          </PaneContentWrapper>
         </PaneContext.Provider>
     )
 };

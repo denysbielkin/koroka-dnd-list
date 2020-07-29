@@ -5,6 +5,7 @@ import Tabs from 'antd/es/tabs';
 
 import { listGenerator } from '../../helper/functions';
 import PaneContent from '../PaneContent';
+import { TabsWrapper } from './styled';
 
 export const PAGE_TITLE = 'Page #';
 export const ITEM_TITLE = 'Item #';
@@ -16,8 +17,6 @@ const App = () => {
 
     const pages = listGenerator(PAGE_TITLE, 10);
     const items = listGenerator(ITEM_TITLE, 10);
-
-    console.log({pages, items})
 
     const generatePages = () => {
         return pages.map( (page, index) => {
@@ -31,9 +30,11 @@ const App = () => {
 
    return (
        <DndProvider backend={HTML5Backend}>
-           <Tabs defaultActiveKey={pages[0].id}>
-                {generatePages()}
-           </Tabs>
+           <TabsWrapper>
+               <Tabs defaultActiveKey={pages[0].id}>
+                    {generatePages()}
+               </Tabs>
+           </TabsWrapper>
        </DndProvider>
    )
 

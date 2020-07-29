@@ -20,7 +20,7 @@ const List = () => {
 
 
     return (
-        <div style={{minHeight: '70vh', width: '200px'}}>
+        <div>
             {list.map((item, index) => <ListItem key={item.id} id={item.id} name={item.name} index={index} moveItem={moveItem} /> )}
         </div>
     )

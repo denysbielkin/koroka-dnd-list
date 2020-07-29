@@ -8,6 +8,9 @@ import { PaneContext } from 'components/PaneContent';
 import { elementTemplate } from '../../helper/functions';
 import { ITEM_TITLE } from 'components/App';
 
+import { ListItemWrapper, StyledListItem } from './styled';
+
+
 const ListItem = ({ id, name: originalName, moveItem, index }) => {
     const { list, setList } = useContext(PaneContext);
     const [itemName, setItemName] = useState(originalName);
@@ -87,36 +90,16 @@ const ListItem = ({ id, name: originalName, moveItem, index }) => {
     const opacity = isDragging ? 0 : 1;
     drag(drop(ref));
 
-    const styles = { border: '2px dashed black', margin: '5px', background: 'white', width: '100px', padding:'3px', cursor: 'pointer', opacity };
-
     return  (
-        <div style={{display:'flex', alignItems: 'center'}}>
+        <ListItemWrapper>
             <div onDoubleClick={onDoubleClick}>
-                <input ref={ref} style={styles} autoFocus={inEdit} disabled={!inEdit} onBlur={onBlur} onChange={editListItem} type='text' value={itemName}/>
+                <StyledListItem ref={ref} opacity={opacity} autoFocus={inEdit} disabled={!inEdit} onBlur={onBlur} onChange={editListItem} type='text' value={itemName}/>
             </div>
             <Tooltip title='Delete item'>
                 <Button style={{opacity}} type='danger' shape='circle' onClick={deleteListItem} > X </Button>
              </Tooltip>
-        </div>
+        </ListItemWrapper>
     )
-
-    // return (
-    //     inEdit
-    //         ?
-    //             (
-    //                 <input {...commonProps} autoFocus onBlur={onBlur} onChange={editListItem} type='text' value={itemName}/>
-    //             )
-    //         :
-    //             (
-    //                 <div style={{display:'flex', alignItems: 'center'}}>
-    //                     <div {...commonProps} onDoubleClick={onDoubleClick}>{itemName}</div>
-    //                     <Tooltip title='Delete item'>
-    //                         <Button type='danger' shape='circle' onClick={deleteListItem} > X </Button>
-    //                     </Tooltip>
-    //                 </div>
-    //             )
-    //     )
-
 };
 
 export default ListItem;
