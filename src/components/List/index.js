@@ -1,13 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useContext } from 'react';
 
 import ListItem from '../ListItem';
+import { PaneContext } from '../PaneContent';
 
 export const ITEM_TYPE = 'Block';
 
-const List = ({ items }) => {
-    //const savedList = localStorage.getItem.....
-    const savedList = null
-    const [list, setList] = useState(savedList || items);
+const List = () => {
+    const { list, setList } = useContext(PaneContext);
 
     const moveItem = (dragIndex, hoverIndex) => {
         const item = list[dragIndex];
@@ -17,11 +16,11 @@ const List = ({ items }) => {
             return [...newList]
         })
     };
+
+
     return (
         <div>
-            {list.map((item, index) => <>
-                <ListItem key={item.id} id={item.id} name={item.name} index={index} moveItem={moveItem} />
-            </>)}
+            {list.map((item, index) => <ListItem key={item.id} id={item.id} name={item.name} index={index} moveItem={moveItem} /> )}
         </div>
     )
 };

@@ -19,7 +19,7 @@ const ListItem = ({ id, name, moveItem, index }) => {
                 return;
             }
 
-            const hoveredRect = ref.current.getBoundingClientRect();
+            const hoveredRect = ref.current?.getBoundingClientRect();
             const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2
             const mousePosition = monitor.getClientOffset();
             const hoverClientY = mousePosition.y - hoveredRect.top;
