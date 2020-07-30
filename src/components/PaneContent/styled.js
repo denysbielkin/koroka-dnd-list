@@ -4,8 +4,7 @@ export const PaneContentWrapper = styled.div`
     padding-left: 5px;
     
     .ant-btn-primary {
-        margin: 5px;
+        margin-left: 2px;
+        margin-bottom: 5px;
     }
 `;
-
-

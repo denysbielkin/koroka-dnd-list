@@ -13,8 +13,6 @@ export const ITEM_TITLE = 'Item #';
 const { TabPane } = Tabs;
 
 const App = () => {
-
-
     const pages = listGenerator(PAGE_TITLE, 10);
     const items = listGenerator(ITEM_TITLE, 10);
 
@@ -22,7 +20,7 @@ const App = () => {
         return pages.map( (page, index) => {
                 return (
                     <TabPane key={page.id} tab={page.name}>
-                        <PaneContent items={items}/>
+                        <PaneContent items={items} STORAGE_NAME={`${PAGE_TITLE}${index+1}`}/>
                     </TabPane>
                 )
         })

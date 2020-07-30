@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import ListItem from '../ListItem';
 import { PaneContext } from '../PaneContent';
 
-export const ITEM_TYPE = 'Block';
+export const ITEM_TYPE = 'TEXT_BLOCK';
 
 const List = () => {
     const { list, setList } = useContext(PaneContext);
@@ -13,11 +13,9 @@ const List = () => {
         setList(prevState => {
             const newList = prevState.filter((nItem, nIndex) => nIndex !== dragIndex);
             newList.splice(hoverIndex, 0, item);
-            console.log('[MOVE]:',item, hoverIndex, dragIndex)
             return [...newList]
         })
     };
-
 
     return (
         <div>

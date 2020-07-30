@@ -5,14 +5,12 @@ import Tooltip from 'antd/es/tooltip';
 
 import { ITEM_TYPE } from '../List';
 import { PaneContext } from 'components/PaneContent';
-import { elementTemplate } from '../../helper/functions';
-import { ITEM_TITLE } from 'components/App';
 
 import { ListItemWrapper, StyledListItem } from './styled';
 
 
 const ListItem = ({ id, name: originalName, moveItem, index }) => {
-    const { list, setList } = useContext(PaneContext);
+    const { list, setList, storeItems } = useContext(PaneContext);
     const [itemName, setItemName] = useState(originalName);
     const [inEdit, setInEdit] = useState(false);
 
@@ -44,7 +42,7 @@ const ListItem = ({ id, name: originalName, moveItem, index }) => {
             const newList = [...list];
 
             newList[index] = {...newList[index], name: value};
-            console.log('blur1', newList[index])
+            console.log('blur', newList[index])
             setList(newList)
             setInEdit(false)
         }

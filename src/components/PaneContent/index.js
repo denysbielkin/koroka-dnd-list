@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, {createContext, useMemo, useState} from 'react';
 import Button from 'antd/es/button';
 import Tooltip from 'antd/es/tooltip';
 
@@ -9,15 +9,20 @@ import { PaneContentWrapper } from './styled';
 
 export const PaneContext = createContext();
 
-const PaneContent = ({ items }) => {
-    //const savedList = localStorage.getItem.....
-    const savedList = null;
-    const [list, setList] = useState(savedList || items);
+
+const PaneContent = ({ items, STORAGE_NAME }) => {
+    const getSavedData = () => JSON.parse(localStorage.getItem(STORAGE_NAME)) || null;
+    const [list, setList] = useState(getSavedData() || items);
+
+    const storeItems = (newValue) => localStorage.setItem(STORAGE_NAME, JSON.stringify(newValue));
 
 
     const createNewItem = () => {
-        setList([...list, elementTemplate(ITEM_TITLE, list.length) ])
+        const newList = [...list, elementTemplate(ITEM_TITLE, list.length)];
+        setList(newList);
     };
+
+    useMemo(()=>storeItems(list), [list]);
 
     return (
         <PaneContext.Provider value={{list, setList}}>

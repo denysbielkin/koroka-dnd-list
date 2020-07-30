@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const ListItemWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -15,5 +14,3 @@ export const StyledListItem = styled.input`
     cursor: pointer;
     ${({opacity})=>`opacity: ${opacity};`}
 `;
-
-
