@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useCallback, useContext} from 'react';
 
 import ListItem from '../ListItem';
 import { PaneContext } from '../PaneContent';
@@ -8,14 +8,14 @@ export const ITEM_TYPE = 'TEXT_BLOCK';
 const List = () => {
     const { list, setList } = useContext(PaneContext);
 
-    const moveItem = (dragIndex, hoverIndex) => {
+    const moveItem =  useCallback((dragIndex, hoverIndex) => {
         const item = list[dragIndex];
         setList(prevState => {
             const newList = prevState.filter((nItem, nIndex) => nIndex !== dragIndex);
             newList.splice(hoverIndex, 0, item);
             return [...newList]
         })
-    };
+    }, [list]);
 
     return (
         <div>

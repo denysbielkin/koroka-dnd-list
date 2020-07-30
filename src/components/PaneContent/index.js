@@ -2,7 +2,7 @@ import React, { createContext, useMemo, useState } from 'react';
 import Button from 'antd/es/button';
 
 import  { ITEM_TITLE } from '../App';
-import { elementTemplate } from '../../helper/functions.js';
+import { elementTemplate } from '../../helpers/functions.js';
 import List from '../List';
 import { PaneContentWrapper } from './styled';
 

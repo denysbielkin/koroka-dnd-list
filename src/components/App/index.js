@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Tabs from 'antd/es/tabs';
 
-import { listGenerator } from '../../helper/functions';
+import { listGenerator } from '../../helpers/functions';
 import PaneContent from '../PaneContent';
 import { TabsWrapper } from './styled';
 
@@ -16,15 +16,14 @@ const App = () => {
     const pages = listGenerator(PAGE_TITLE, 10);
     const items = listGenerator(ITEM_TITLE, 10);
 
-    const generatePages = () => {
-        return pages.map( (page, index) => {
+    const generatePages = useCallback(()=> pages.map( (page, index) => {
                 return (
                     <TabPane key={page.id} tab={page.name}>
                         <PaneContent items={items} STORAGE_NAME={`${PAGE_TITLE}${index+1}`}/>
                     </TabPane>
                 )
-        })
-    };
+        }), [items, pages]);
+
 
    return (
        <DndProvider backend={HTML5Backend}>

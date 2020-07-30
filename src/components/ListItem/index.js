@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, {useCallback, useContext, useRef, useState} from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Button from 'antd/es/button';
 import Tooltip from 'antd/es/tooltip';
@@ -13,42 +13,37 @@ const ListItem = ({ id, name: originalName, moveItem, index }) => {
     const { list, setList, storeItems } = useContext(PaneContext);
     const [itemName, setItemName] = useState(originalName);
     const [inEdit, setInEdit] = useState(false);
+    const ref = useRef(null);
 
-    const editListItem = (e) => {
+    const editListItem = useCallback((e) => {
         const value = e.target.value;
-        setItemName(value)
-    };
+        setItemName(value);
+    }, []);
 
-    const deleteListItem = () => {
-        console.log('del')
+    const deleteListItem = useCallback(() => {
         const newList = list.filter((nItem, nIndex)=>nIndex !== index);
         setList(newList);
-    };
+    }, [list]);
 
-    const onDoubleClick = (e) => {
-        console.log('dabul')
+    const onDoubleClick = useCallback((e) => {
        if(!inEdit) {
-           console.log('dobl1', ref)
-
-           e.target.select()
+           e.target.select();
            ref.current.focus();
             setInEdit(true);
         }
-    };
+    }, [inEdit, ref]);
 
-    const onBlur = (e) => {
+    const onBlur = useCallback((e) => {
         if (inEdit) {
             const value = e.target.value;
             const newList = [...list];
 
             newList[index] = {...newList[index], name: value};
-            console.log('blur', newList[index])
-            setList(newList)
-            setInEdit(false)
+            setList(newList);
+            setInEdit(false);
         }
-    };
+    }, [inEdit, list]);
 
-    const ref = useRef(null)
     const [, drop] = useDrop({
         accept: ITEM_TYPE,
         hover(item, monitor) {
@@ -75,7 +70,7 @@ const ListItem = ({ id, name: originalName, moveItem, index }) => {
                 return;
             }//
             moveItem(dragIndex, hoverIndex);
-            item.index = hoverIndex
+            item.index = hoverIndex;
             // if (dragIndex > hoverIndex && hoverClientY < )
         }
     });
