@@ -1,6 +1,5 @@
-import React, {createContext, useMemo, useState} from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import Button from 'antd/es/button';
-import Tooltip from 'antd/es/tooltip';
 
 import  { ITEM_TITLE } from '../App';
 import { elementTemplate } from '../../helper/functions.js';
@@ -9,13 +8,11 @@ import { PaneContentWrapper } from './styled';
 
 export const PaneContext = createContext();
 
-
 const PaneContent = ({ items, STORAGE_NAME }) => {
     const getSavedData = () => JSON.parse(localStorage.getItem(STORAGE_NAME)) || null;
     const [list, setList] = useState(getSavedData() || items);
 
     const storeItems = (newValue) => localStorage.setItem(STORAGE_NAME, JSON.stringify(newValue));
-
 
     const createNewItem = () => {
         const newList = [...list, elementTemplate(ITEM_TITLE, list.length)];
@@ -27,9 +24,7 @@ const PaneContent = ({ items, STORAGE_NAME }) => {
     return (
         <PaneContext.Provider value={{list, setList}}>
           <PaneContentWrapper>
-              <Tooltip title='Add new'>
-                  <Button type='primary' shape='circle' onClick={createNewItem} > Add </Button>
-              </Tooltip>
+              <Button type='primary' shape='circle' onClick={createNewItem} > Add </Button>
               <List />
           </PaneContentWrapper>
         </PaneContext.Provider>
